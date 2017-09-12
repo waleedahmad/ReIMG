@@ -1,0 +1,20 @@
+body{
+	font-family: 'Roboto', sans-serif;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+.post .title,
+.post .image{
+	float:none;
+	margin: 10px auto;
+}
+
+.post .image img{
+	width: 100%;
+}
+
+.post .btn{
+	width: 80px;
+}
