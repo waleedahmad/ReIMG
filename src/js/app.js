@@ -1,22 +1,28 @@
 let $app = $('#app'),
     nav_after_id = $($app).attr('data-nav-after'),
+    reddit = $($app).attr('data-reddit'),
     req_params = (nav_after_id !== 'NULL') ? '?after='+nav_after_id : '',
     count = -1;
 
-$.getJSON('https://www.reddit.com/r/Models.json'+req_params, function(response) {
-    $.each(response.data.children, function(i, item) {
-        if (item.kind === 't3') {
-            if (isImage(item.data.url)) {
-                renderImage(item.data.title, item.data.url, item.data.id);
-            } else {
-                if (item.data.domain === 'imgur.com') {
-                    renderImageOrAlbum(item);
+if(reddit !== undefined && reddit.length !== 0){
+    $.getJSON('https://www.reddit.com/r/'+ reddit + '.json'+ req_params, function(response) {
+        $.each(response.data.children, function(i, item) {
+            if (item.kind === 't3') {
+                if (isImage(item.data.url)) {
+                    renderImage(item.data.title, item.data.url, item.data.id);
+                } else {
+                    if (item.data.domain === 'imgur.com') {
+                        renderImageOrAlbum(item);
+                    }
                 }
             }
-        }
+        });
+        renderNavigation(response.data.after);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        window.location = '/404.php?reddit='+ reddit;
     });
-    renderNavigation(response.data.after);
-});
+}
 
 function renameListener(e){
     let id = $(this).attr('data-id');
@@ -25,12 +31,12 @@ function renameListener(e){
 
 function renderNavigation(after_id){
     let $nav = `<div class="navigation">
-                <nav>
-                    <ul class="pager">
-                        <li class="next"><a href="?after=${after_id}">More <span aria-hidden="true">&rarr;</span></a></li>
-                    </ul>
-                </nav>
-            </div>`;
+                    <nav>
+                        <ul class="pager">
+                            <li class="next"><a href="?after=${after_id}&reddit=${reddit}">More <span aria-hidden="true">&rarr;</span></a></li>
+                        </ul>
+                    </nav>
+                </div>`;
     $($app).after($nav);
 }
 
@@ -99,16 +105,16 @@ function renderImageOrAlbum(item) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-        	if(response.data.length){
-        		$.each(response.data, function(i, res){
-	        		renderImage(item.data.title, res.link, item.data.id);
-	        	});
-        	}else{
-        		renderImage(item.data.title, response.data.link, item.data.id)
-        	}
+            if(response.data.length){
+                $.each(response.data, function(i, res){
+                    renderImage(item.data.title, res.link, item.data.id);
+                });
+            }else{
+                renderImage(item.data.title, response.data.link, item.data.id)
+            }
         },
         error: function(err) {
-        	console.log(err);
+            console.log(err);
         }
     });
 }

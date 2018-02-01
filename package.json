@@ -1,0 +1,12 @@
+{
+  "name": "re-search",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:waleedahmad/Scraper.git",
+  "author": "Waleed Ahmad <waleedgplus@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "3.3.5",
+    "jquery": "^3.3.1"
+  }
+}
