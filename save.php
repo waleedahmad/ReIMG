@@ -1,30 +1,40 @@
 <?php
 
-$images_directory = "D:/Pictures";
+$settings = [];
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $url = $_POST['url'];
-    $type = $_POST['type'];
-    $name = $_POST['name'];
+require('database/connection.php');
 
-    $original_name = basename($url);
-    $ext = substr($original_name, strrpos($original_name, '.'));
-
-    $img = file_get_contents($url);
-    $path = getSafePath($images_directory, $type, $name, $ext, 0);
-
-    initStorage([
-        $images_directory,
-        $images_directory.'/NSFW',
-        $images_directory.'/SAFE'
-    ]);
-
-    if($img) {
-        file_put_contents($path, $img);
-        echo json_encode(true);
+if($connection){
+    $sql = $connection->prepare('SELECT * FROM config');
+    if($sql->execute()){
+        $settings = $sql->fetchAll();
     }
-    else {
-        echo json_encode(false);
+    $images_directory = $settings[0]['value'];
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $url = $_POST['url'];
+        $type = $_POST['type'];
+        $name = $_POST['name'];
+
+        $original_name = basename($url);
+        $ext = substr($original_name, strrpos($original_name, '.'));
+
+        $img = file_get_contents($url);
+        $path = getSafePath($images_directory, $type, $name, $ext, 0);
+
+        initStorage([
+            $images_directory,
+            $images_directory.'/NSFW',
+            $images_directory.'/SAFE'
+        ]);
+
+        if($img) {
+            file_put_contents($path, $img);
+            echo json_encode(true);
+        }
+        else {
+            echo json_encode(false);
+        }
     }
 }
 

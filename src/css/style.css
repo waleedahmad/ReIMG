@@ -8,6 +8,23 @@ body{
 	padding-top: 60px;
 }
 
+#app .settings{
+	padding-top: 30px;
+	margin: 0px auto;
+	float : none;
+}
+
+#app .settings h3{
+	margin-bottom: 30px;
+}
+
+#app .settings .error{
+	color:red;
+	padding-top : 5px;
+}
+
+
+
 .navigation{
 	padding-bottom: 50px;
 }

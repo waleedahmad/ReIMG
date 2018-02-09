@@ -11,22 +11,31 @@
             <a class="navbar-brand" href="/">ReIMG</a>
         </div>
 
-        <?php
-            if($_SERVER['REQUEST_URI'] != '/'){
-        ?>
-            <form class="navbar-form navbar-left" action="/subreddit.php" method="get">
-                <div class="input-group">
-                    <span class="input-group-addon">reddit.com/r/</span>
-                    <input type="text"
-                           class="form-control"
-                           name="reddit"
-                           value="<?=isset($_GET['reddit']) ? $_GET['reddit'] : 'NULL' ?>"
-                    >
-                </div>
-            </form>
-        <?php
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <?php
+            if($_SERVER['REQUEST_URI'] != '/' && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) != '/settings.php'){
+                ?>
+                <form class="navbar-form navbar-left" action="/subreddit.php" method="get">
+                    <div class="input-group">
+                        <span class="input-group-addon">reddit.com/r/</span>
+                        <input type="text"
+                               class="form-control"
+                               name="reddit"
+                               value="<?=isset($_GET['reddit']) ? $_GET['reddit'] : 'NULL' ?>"
+                        >
+                    </div>
+                </form>
+                <?php
             }
-        ?>
-    </div>
+            ?>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/settings.php">
+                        <span class="glyphicon glyphicon-cog"> </span> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
