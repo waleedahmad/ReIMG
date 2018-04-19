@@ -31,10 +31,18 @@
             ?>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/settings.php">
-                        <span class="glyphicon glyphicon-cog"> </span> Settings
-                    </a>
-                </li>
+                <?php
+                    $hosts = ['127.0.0.1', 'localhost'];
+                    if(in_array($_SERVER['SERVER_NAME'], $hosts)){
+                        ?>
+                        <li><a href="/settings.php">
+                                <span class="glyphicon glyphicon-cog"> </span> Settings
+                            </a>
+                        </li>
+                        <?php
+                    }
+                ?>
+
             </ul>
         </div>
     </div>

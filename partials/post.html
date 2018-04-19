@@ -1,0 +1,27 @@
+<div class="post">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 image">
+        {{^save_enable}}
+            <h3>{{title}}</h3>
+        {{/save_enable}}
+        <img class="image-uri" src="{{url}}">
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 title">
+        {{#save_enable}}
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default save-nsfw" data-type="NSFW" type="button">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> NSFW
+                    </button>
+                </span>
+
+                <input class="form-control post-name" value="{{title}}" data-id="{{id}}" placeholder="Name..">
+
+                <span class="input-group-btn">
+                    <button class="btn btn-default save-safe" data-type="SAFE" type="button">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> SAFE
+                    </button>
+                </span>
+            </div>
+        {{/save_enable}}
+    </div>
+</div>

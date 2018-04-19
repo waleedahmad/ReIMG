@@ -2,7 +2,17 @@ let $app = $('#app'),
     nav_after_id = $($app).attr('data-nav-after'),
     reddit = $($app).attr('data-reddit'),
     req_params = (nav_after_id !== 'NULL') ? '?after='+nav_after_id : '',
-    count = -1;
+    count = -1,
+    post_template = '',
+    nav_template = '';
+
+$.get('/partials/post.html', function(template) {
+    post_template = template;
+});
+
+$.get('/partials/navigation.html', function(template) {
+    nav_template = template;
+});
 
 if(reddit !== undefined && reddit.length !== 0){
     $.getJSON('https://www.reddit.com/r/'+ reddit + '.json'+ req_params, function(response) {
@@ -30,34 +40,20 @@ function renameListener(e){
 }
 
 function renderNavigation(after_id){
-    let $nav = `<div class="navigation">
-                    <nav>
-                        <ul class="pager">
-                            <li class="next"><a href="?after=${after_id}&reddit=${reddit}">More <span aria-hidden="true">&rarr;</span></a></li>
-                        </ul>
-                    </nav>
-                </div>`;
+    let $nav = Mustache.render(nav_template, {
+        after_id : after_id,
+        reddit: reddit
+    });
     $($app).after($nav);
 }
 
 function renderImage(title,url,id) {
-    $post = `<div class="post">
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 image">
-				    <img class="image-uri" src="${url}">
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 title">
-				  	<div class="input-group">
-				  	    <span class="input-group-btn">
-					        <button class="btn btn-default save-nsfw" data-type="NSFW" type="button"> <span class="glyphicon glyphicon-save" aria-hidden="true"></span> NSFW</button>
-					    </span>
-					    <input class="form-control post-name" value="${title}" data-id="${id}" placeholder="Name..">
-					    <span class="input-group-btn">
-					        <button class="btn btn-default save-safe" data-type="SAFE" type="button"> <span class="glyphicon glyphicon-save" aria-hidden="true"></span> SAFE </button>
-					    </span>
-					   
-				    </div>
-				</div>
-			 </div>`;
+    $post = Mustache.render(post_template, {
+        title : title,
+        url : url,
+        id : id,
+        save_enable : showSaveOption(window.location.hostname)
+    });
     $.when($($app).append($post)).then(function(){
         ++count;
         $('.post-name').eq(count).on('keyup', renameListener);
@@ -125,4 +121,9 @@ function isImage(url) {
 
 function stripAlumbId(url) {
     return /[^/]*$/.exec(url)[0];
+}
+
+function showSaveOption(host){
+    const hosts = ['127.0.0.1', 'localhost'];
+    return hosts.indexOf(host) !== -1;
 }
