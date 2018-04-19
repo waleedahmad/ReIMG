@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">ReIMG</a>
+            <a class="navbar-brand" href="/"> <i class="fa fa-reddit"></i> ReIMG</a>
         </div>
 
 
@@ -31,6 +31,11 @@
             ?>
 
             <ul class="nav navbar-nav navbar-right">
+                <li><a target="_blank" href="https://github.com/waleedahmad/reimg">
+                        <i class="fa fa-github" style="font-size: 18px;"></i> Github
+                    </a>
+                </li>
+
                 <?php
                     $hosts = ['127.0.0.1', 'localhost'];
                     if(in_array($_SERVER['SERVER_NAME'], $hosts)){

@@ -52,3 +52,16 @@ After serving your application through XAMPP/MAMP/MAMP and setting up databases,
 
 directory string is a valid directory and have sufficient permissions to read and write by your
 web server.
+
+**Enable save image option**
+
+To access settings or enable save images option, try accessing site locally. 
+
+These urls are hard coded to enable save option. You can modify them or add your own host names in `/src/js/app.js` file.
+Add them to `hosts` array in `showSaveOption(host)` method.
+
+1. 127.0.0.1
+
+2. localhost
+
+To enable settings, modify `/partials/navbar.php` files and add your own host in `hosts` array.
