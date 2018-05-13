@@ -1,0 +1,75 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~toastr/toastr';
+
+body{
+    font-family: 'Quicksand', sans-serif;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+#app{
+    padding-top: 60px;
+}
+
+#app .settings{
+    padding-top: 30px;
+    margin: 0px auto;
+    float : none;
+}
+
+#app .settings h3{
+    margin-bottom: 30px;
+}
+
+#app .settings .error{
+    color:red;
+    padding-top : 5px;
+}
+
+.navigation{
+    padding-bottom: 50px;
+}
+
+.post .title,
+.post .image{
+    float:none;
+    margin: 10px auto;
+}
+
+.post .image img{
+    width: 100%;
+}
+
+.post .btn{
+    width: 80px;
+}
+
+.search,.not-found{
+    margin-top: 50px;
+
+}
+.search .logo img,
+.not-found .logo img{
+    margin: 0px auto;
+    display: block;
+}
+
+.search .input{
+    margin: 30px auto;
+    float : none;
+}
+
+.not-found .title{
+    text-align:center;
+}
+
+.load-more{
+    display: block;
+    width: 150px;
+    margin:  25px auto;
+}
+
+.loader{
+    width: 40px;
+    margin: 20px auto;
+}
