@@ -31,7 +31,13 @@ class Navbar extends React.Component{
                             <span className="icon-bar"/>
                             <span className="icon-bar"/>
                         </button>
-                        <Link to={'/'} className="navbar-brand">
+                        <Link
+                            to={'/'}
+                            onClick={e => {
+                                this.props.clearSearch();
+                            }}
+                            className="navbar-brand"
+                        >
                             <i className="fa fa-reddit"/> ReIMG
                         </Link>
 
@@ -49,8 +55,21 @@ class Navbar extends React.Component{
                                                value={this.state.reddit}
                                                onChange={this.props.handleChange.bind(this)}
                                         />
+                                        <span className="input-group-addon">
+                                            <a href="#"
+                                               className="btn-link"
+                                               onClick={this.props.clearSearch}
+                                            >
+                                                <i className="fa fa-remove"/>
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div className="input-group">
+
                                     </div>
                                 </form>
+
                         ) : ''}
 
 

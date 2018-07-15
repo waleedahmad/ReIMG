@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import { ScaleLoader } from 'react-spinners';
 
 
@@ -21,6 +21,9 @@ class Images extends React.Component{
         }
     }
 
+    componentWillUnmount(){
+        this.props.clearSearch();
+    }
 
     render(){
         return (
@@ -77,13 +80,15 @@ class Images extends React.Component{
                     />
                 </div>
 
-                {this.state.nextPage ? (
-                    <a href="#" className="btn btn-default load-more" onClick={this.props.loadMore.bind(this)} >
-                        Load More <span aria-hidden="true">&rarr;</span>
-                    </a>
-                ) : ''}
-
-
+                {!this.state.loading &&
+                    <Fragment>
+                        {this.state.nextPage ? (
+                            <a href="#" className="btn btn-default load-more" onClick={this.props.loadMore.bind(this)} >
+                                Load More <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        ) : ''}
+                    </Fragment>
+                }
             </div>
         );
     }

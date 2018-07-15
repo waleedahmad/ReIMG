@@ -5,7 +5,7 @@ class NotFound extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            reddit : props.reddit
+            reddit : props.match.params.reddit
         }
     }
 

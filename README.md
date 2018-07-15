@@ -1,3 +1,11 @@
+## ReIMG
+#### Search and download images from your favorite Subreddits
+
+![ReIMG](https://i.imgur.com/GJCv8BF.png)
+
+![ReIMG](https://i.imgur.com/zRhVXX1.png)
+
+
 ## Installation and Setup
 **Clone repository**
 
@@ -17,51 +25,25 @@ or
 $ yarn install
 `
 
-**Database Configuration**
+**Build Code**
 
-Edit `database/migrations/migrations.sql` file and change database name for your application.
+Run `npm run prod` to build frontend code in production and `npm run dev` in
+development environment.
 
-`Drop DATABASE ReIMG;`
+**Enabling Image Download/Storage Options**
 
-`CREATE DATABASE ReIMG;`
-
-`use ReIMG;`
-
-Rename `database/config.example.php` file to `database/config.php`
-
-Edit `database/config.php` file and enter database credentials/
-
-`$host       = "127.0.0.1";`
-
-`$username   = "";`
-
-`$password   = "";`
-
-`$dbname     = "reimg";`
-
-**Running Migrations**
-
-Run `$ php install.php` to create database database and populate config table with migrations.
+You must serve ReIMG directory through a web server (Apache or Nginx) to use download images 
+feature. After setting up application, visit `/settings` route to enable storage and configure
+storage directory. 
 
 
-**Configuring Storage Directory**
+**Settings**
 
-After serving your application through XAMPP/MAMP/MAMP and setting up databases, route to 
+![ReIMG](https://i.imgur.com/D5ySXEx.png)
 
-`/setting.php` uri and update storage directory from application settings. Make sure storage 
+#### Missing Features (will be implemented soon)
+* Giphy Gifs support
+* Imgur gifv support
+* Videos support
 
-directory string is a valid directory and have sufficient permissions to read and write by your
-web server.
-
-**Enable save image option**
-
-To access settings or enable save images option, try accessing site locally. 
-
-These urls are hard coded to enable save option. You can modify them or add your own host names in `/src/js/app.js` file.
-Add them to `hosts` array in `showSaveOption(host)` method.
-
-1. 127.0.0.1
-
-2. localhost
-
-To enable settings, modify `/partials/navbar.php` files and add your own host in `hosts` array.
+ 

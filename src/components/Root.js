@@ -5,7 +5,7 @@ import axios from "axios/index";
 import SearchBar from "./SearchBar";
 import NotFound from "./NotFound";
 import Logo from './Logo';
-import {Route} from 'react-router';
+import {Redirect, Route} from 'react-router';
 import Settings from "./Settings";
 import toastr from 'toastr';
 
@@ -13,16 +13,16 @@ class Root extends React.Component{
 
     constructor(props){
         super(props);
-            this.state = {
-                reddit : '',
-                search : false,
-                images : [],
-                req_params : '',
-                not_found : false,
-                loading : false,
-                nextPage : false,
-            };
-        }
+        this.state = {
+            reddit : '',
+            search : false,
+            images : [],
+            req_params : '',
+            not_found : false,
+            loading : false,
+            nextPage : false,
+        };
+    }
 
     search(e){
         e.preventDefault();
@@ -40,6 +40,23 @@ class Root extends React.Component{
         }else{
             alert('Provide Reddit Name');
         }
+    }
+
+    clearSearch(e = null){
+        if(e){
+            console.log('Prevent');
+            e.preventDefault();
+        }
+        this.setState({
+            reddit : '',
+            search : false,
+            images : [],
+            req_params : '',
+            not_found : false,
+            loading : false,
+            nextPage : false,
+        });
+        document.title = 'ReIMG';
     }
 
     getPathName(href) {
@@ -138,21 +155,27 @@ class Root extends React.Component{
                                 url : item.data.url,
                                 id : item.data.id,
                                 title : item.data.title
-                            })
+                            });
                         } else {
                             if (item.data.domain === 'imgur.com') {
-                                let albumID = this.stripAlbumID(item.data.url),
-                                    type = this.stripAlbumType(item.data.url),
-                                    APIUrl = "https://api.imgur.com/3/"+type+"/" + albumID + "/images";
-                                albums = albums.concat({
-                                    title : item.data.title,
-                                    url : APIUrl,
-                                    id : albumID
-                                })
+                                let type = item.data.url.split('.').pop();
+                                if(type === 'gifv'){
+                                    // TODO
+                                }else{
+                                    let albumID = this.stripAlbumID(item.data.url),
+                                        type = this.stripAlbumType(item.data.url),
+                                        APIUrl = "https://api.imgur.com/3/"+type+"/" + albumID + "/images";
+                                    albums = albums.concat({
+                                        title : item.data.title,
+                                        url : APIUrl,
+                                        id : albumID
+                                    });
+                                }
+
                             }
                         }
                     }
-                }.bind(this))
+                }.bind(this));
 
 
                 const url_promises = albums.map(album => {
@@ -166,7 +189,7 @@ class Root extends React.Component{
                         })[0];
 
                         if(r.data.data.length){
-                            r.data.data.map(function(res, i){
+                            r.data.data.map(function(res){
                                 images = images.concat({
                                     title : _album.title,
                                     url : res.link,
@@ -178,7 +201,7 @@ class Root extends React.Component{
                                 url : r.data.data.link,
                                 id : _album.id,
                                 title : _album.title
-                            })
+                            });
                         }
                     });
 
@@ -215,6 +238,7 @@ class Root extends React.Component{
                     search={this.search.bind(this)}
                     handleChange={this.handleChange.bind(this)}
                     showSearch={this.state.search}
+                    clearSearch={this.clearSearch.bind(this)}
                 />
 
                 <div className="container">
@@ -242,15 +266,20 @@ class Root extends React.Component{
                                             loadMore={this.loadMore.bind(this)}
                                             changeCaption={this.changeCaption.bind(this)}
                                             saveImage={this.saveImage.bind(this)}
+                                            clearSearch={this.clearSearch.bind(this)}
                                         />
                                     ) :
-                                    <NotFound reddit={this.state.reddit}/>
+                                    <Redirect to={'/404/'+this.state.reddit}/>
                                 }
                             </div>
                         )}/>
 
                         <Route exact path="/settings" render={() => (
                             <Settings/>
+                        )}/>
+
+                        <Route exact path="/404/:reddit" render={(props) => (
+                            <NotFound {...props}/>
                         )}/>
 
                     </div>

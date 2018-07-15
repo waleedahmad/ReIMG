@@ -15,6 +15,7 @@ class Settings extends React.Component{
     }
 
     componentDidMount(){
+        document.title = 'Settings - ReIMG';
         if (!this.storageAvailable('localStorage')) {
             this.setState({
                 storage_err : true,
