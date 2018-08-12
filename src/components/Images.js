@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import { ScaleLoader } from 'react-spinners';
-
+import ProgressiveImage from "react-progressive-image";
 
 class Images extends React.Component{
 
@@ -34,7 +34,13 @@ class Images extends React.Component{
                             <div key={index} className="post">
                                 <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 image">
                                     <h3>{post.title}</h3>
-                                    <img className="image-uri" src={post.url}/>
+                                    <ProgressiveImage
+                                        src={post.url}
+                                        placeholder={require('../img/timer.gif')}>
+                                        {(src, loading) => (
+                                            <img style={{ opacity: loading ? 0.5 : 1 }} src={src} alt='an image'/>
+                                        )}
+                                    </ProgressiveImage>
                                 </div>
 
                                 {JSON.parse(localStorage.getItem("storage")) ? (

@@ -179,11 +179,12 @@ class Root extends React.Component{
 
 
                 const url_promises = albums.map(album => {
-                    return axios.get(album.url , { headers: {"Authorization" : 'Client-ID fc6952f445a03f3'} })
+                    return axios.get(album.url , { headers: {"Content-Type": "text", "Authorization" : 'Client-ID 8b8b2924fbc8065'} })
                 });
 
                 axios.all(url_promises).then(function(results) {
                     results.map(r => {
+                        console.log(r.headers);
                         let _album = albums.filter(function( album ) {
                             return album.url === r.config.url;
                         })[0];
@@ -194,8 +195,8 @@ class Root extends React.Component{
                                     title : _album.title,
                                     url : res.link,
                                     id : _album.id
-                                })
-                            })
+                                });
+                            });
                         }else{
                             images = images.concat({
                                 url : r.data.data.link,
