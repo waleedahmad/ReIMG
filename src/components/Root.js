@@ -44,7 +44,6 @@ class Root extends React.Component{
 
     clearSearch(e = null){
         if(e){
-            console.log('Prevent');
             e.preventDefault();
         }
         this.setState({
@@ -112,7 +111,6 @@ class Root extends React.Component{
     }
 
     saveImage(id, type, e){
-        console.log(id, type);
         let image = this.state.images[id];
 
         $.ajax({
@@ -127,6 +125,7 @@ class Root extends React.Component{
             success : function(res){
                 if(JSON.parse(res) === true){
                     toastr.success('Image saved');
+                    this.removeImage(image);
                 }else{
                     toastr.error('Unable to save image');
                 }
@@ -134,6 +133,13 @@ class Root extends React.Component{
         })
     }
 
+    removeImage(image){
+        this.setState({
+            images : this.state.images.filter(img => {
+                return image.id !== img.id
+            })
+        });
+    }
 
     getImages(){
         let images = [],
