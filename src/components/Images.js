@@ -36,7 +36,7 @@ class Images extends React.Component{
                                     <h3>{post.title}</h3>
                                     <ProgressiveImage
                                         src={post.url}
-                                        placeholder={require('../img/timer.gif')}>
+                                        placeholder={'/dist/' + require('../img/timer.gif')}>
                                         {(src, loading) => (
                                             <img style={{ opacity: loading ? 0.5 : 1 }} src={src} alt='an image'/>
                                         )}
