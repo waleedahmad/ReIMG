@@ -24,6 +24,10 @@ class Root extends React.Component{
         };
     }
 
+    /**
+     * Search images of a Subreddit
+     * @param e
+     */
     search(e){
         e.preventDefault();
         if(this.state.reddit.length){
@@ -42,6 +46,10 @@ class Root extends React.Component{
         }
     }
 
+    /**
+     * Clear search input field
+     * @param e
+     */
     clearSearch(e = null){
         if(e){
             e.preventDefault();
@@ -58,16 +66,31 @@ class Root extends React.Component{
         document.title = 'ReIMG';
     }
 
+    /**
+     * Return a path name of a URL
+     * @param href
+     * @returns {string}
+     */
     getPathName(href) {
         let l = document.createElement("a");
         l.href = href;
         return l.pathname;
     };
 
+    /**
+     * Return true if url passed is an image
+     * @param url
+     * @returns {boolean}
+     */
     isImage(url) {
         return (url.match(/\.(jpeg|jpg|gif|png)$/) !== null);
     }
 
+    /**
+     * Parse out album id from an imgur url
+     * @param url
+     * @returns {string}
+     */
     stripAlbumID(url) {
         let path = this.getPathName(url),
             ids = path.split('/').filter(part => part !== "");
@@ -84,6 +107,10 @@ class Root extends React.Component{
         }
     }
 
+    /**
+     * Load more images on scroll
+     * @param e
+     */
     loadMore(e){
         e.preventDefault();
         if(!this.state.loading){
@@ -97,6 +124,12 @@ class Root extends React.Component{
         }
     }
 
+    /**
+     * Update caption of all images under
+     * the same album id
+     * @param id
+     * @param event
+     */
     changeCaption(id, event){
         this.state.images.map(function(image, index){
             if(image.id === id){
@@ -110,6 +143,12 @@ class Root extends React.Component{
         }.bind(this));
     }
 
+    /**
+     * Save image to local disk
+     * @param id
+     * @param type
+     * @param e
+     */
     saveImage(id, type, e){
         let image = this.state.images[id];
 
@@ -133,6 +172,11 @@ class Root extends React.Component{
         })
     }
 
+    /**
+     * Remove image from list of loaded
+     * images after saving it locally
+     * @param image
+     */
     removeImage(image){
         this.setState({
             images : this.state.images.filter(img => {
@@ -141,6 +185,9 @@ class Root extends React.Component{
         });
     }
 
+    /**
+     * Retrieve image posts from Subreddit
+     */
     getImages(){
         let images = [],
             albums = [];
@@ -230,6 +277,11 @@ class Root extends React.Component{
             }.bind(this));
     }
 
+    /**
+     * Handle onChange event for Subreddit
+     * name input field
+     * @param event
+     */
     handleChange(event) {
         this.setState({
             reddit: event.target.value,
