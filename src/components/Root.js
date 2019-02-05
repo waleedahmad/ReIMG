@@ -145,12 +145,12 @@ class Root extends React.Component{
 
     /**
      * Save image to local disk
-     * @param id
+     * @param index
      * @param type
      * @param e
      */
-    saveImage(id, type, e){
-        let image = this.state.images[id];
+    saveImage(index, type, e){
+        let image = this.state.images[index];
 
         $.ajax({
             type : 'POST',
@@ -164,7 +164,7 @@ class Root extends React.Component{
             success : function(res){
                 if(JSON.parse(res) === true){
                     toastr.success('Image saved');
-                    this.removeImage(image);
+                    this.removeImage(index);
                 }else{
                     toastr.error('Unable to save image');
                 }
@@ -175,14 +175,12 @@ class Root extends React.Component{
     /**
      * Remove image from list of loaded
      * images after saving it locally
-     * @param image
+     * @param index
      */
-    removeImage(image){
-        this.setState({
-            images : this.state.images.filter(img => {
-                return image.id !== img.id
-            })
-        });
+    removeImage(index){
+        const images = this.state.images;
+        images.splice(index, 1);
+        this.setState({ images });
     }
 
     /**
