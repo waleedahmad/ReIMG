@@ -233,38 +233,45 @@ class Root extends React.Component{
                     return axios.get(album.url , { headers: {"Content-Type": "text", "Authorization" : 'Client-ID 8b8b2924fbc8065'} })
                 });
 
-                axios.all(url_promises).then(function(results) {
-                    results.map(r => {
-                        console.log(r.headers);
-                        let _album = albums.filter(function( album ) {
-                            return album.url === r.config.url;
-                        })[0];
+                axios.all(url_promises)
+                    .then(function(results) {
+                        results.map(r => {
+                            console.log(r.headers);
+                            let _album = albums.filter(function( album ) {
+                                return album.url === r.config.url;
+                            })[0];
 
-                        if(r.data.data.length){
-                            r.data.data.map(function(res){
-                                images = images.concat({
-                                    title : _album.title,
-                                    url : res.link,
-                                    id : _album.id
+                            if(r.data.data.length){
+                                r.data.data.map(function(res){
+                                    images = images.concat({
+                                        title : _album.title,
+                                        url : res.link,
+                                        id : _album.id
+                                    });
                                 });
-                            });
-                        }else{
-                            images = images.concat({
-                                url : r.data.data.link,
-                                id : _album.id,
-                                title : _album.title
-                            });
-                        }
-                    });
+                            }else{
+                                images = images.concat({
+                                    url : r.data.data.link,
+                                    id : _album.id,
+                                    title : _album.title
+                                });
+                            }
+                        });
 
-                    this.setState({
-                        images : this.state.images.concat(images)
-                    }, () => {
+                        this.setState({
+                            images : this.state.images.concat(images)
+                        }, () => {
+                            this.setState({
+                                loading : false
+                            })
+                        })
+                    }.bind(this))
+                    .catch(function(error){
+                        console.log(error);
                         this.setState({
                             loading : false
                         })
-                    })
-                }.bind(this));
+                    }.bind(this));
 
             }.bind(this))
             .catch(function (error) {
