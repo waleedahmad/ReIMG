@@ -4,3 +4,4 @@ database/config.php
 dist
 storage
 yarn-error.log
+npm-debug.log
