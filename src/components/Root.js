@@ -190,7 +190,7 @@ class Root extends React.Component{
         let images = [],
             albums = [];
 
-        axios.get('https://www.reddit.com/r/'+ this.state.reddit + '.json'+ this.state.req_params)
+        axios.get('/server/search.php?reddit='+ this.state.reddit + '&req_params='+ this.state.req_params)
             .then(function (response) {
                 let after = response.data.data.after;
                 this.setState({
